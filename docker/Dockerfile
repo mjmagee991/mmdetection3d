@@ -1,6 +1,6 @@
-ARG PYTORCH="1.9.0"
-ARG CUDA="11.1"
-ARG CUDNN="8"
+ARG PYTORCH="2.4.0"
+ARG CUDA="12.1"
+ARG CUDNN="9"
 
 FROM pytorch/pytorch:${PYTORCH}-cuda${CUDA}-cudnn${CUDNN}-devel
 
@@ -11,9 +11,9 @@ ENV TORCH_CUDA_ARCH_LIST="6.0 6.1 7.0 7.5 8.0 8.6+PTX" \
 
 # Avoid Public GPG key error
 # https://github.com/NVIDIA/nvidia-docker/issues/1631
-RUN rm /etc/apt/sources.list.d/cuda.list \
-    && rm /etc/apt/sources.list.d/nvidia-ml.list \
-    && apt-key del 7fa2af80 \
+# RUN rm /etc/apt/sources.list.d/cuda.list \
+#     && rm /etc/apt/sources.list.d/nvidia-ml.list \
+RUN apt-key del 7fa2af80 \
     && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu1804/x86_64/3bf863cc.pub \
     && apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/machine-learning/repos/ubuntu1804/x86_64/7fa2af80.pub
 
@@ -32,9 +32,9 @@ RUN pip install openmim && \
     mim install "mmengine" "mmcv>=2.0.0rc4" "mmdet>=3.0.0"
 
 # Install MMDetection3D
-RUN conda clean --all \
-    && git clone https://github.com/open-mmlab/mmdetection3d.git -b dev-1.x /mmdetection3d \
-    && cd /mmdetection3d \
-    && pip install --no-cache-dir -e .
+# RUN conda clean --all \
+#     && git clone https://github.com/open-mmlab/mmdetection3d.git -b dev-1.x /mmdetection3d \
+#     && cd /mmdetection3d \
+#     && pip install --no-cache-dir -e .
 
-WORKDIR /mmdetection3d
+# WORKDIR /mmdetection3d
