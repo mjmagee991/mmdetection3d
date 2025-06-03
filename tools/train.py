@@ -11,6 +11,7 @@ from mmengine.runner import Runner
 
 from mmdet3d.utils import replace_ceph_backend
 
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train a 3D detector')
