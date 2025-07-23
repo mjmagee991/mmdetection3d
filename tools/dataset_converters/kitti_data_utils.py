@@ -618,7 +618,7 @@ def add_difficulty_to_annos(info):
         elif is_hard[i]:
             diff.append(2)
         else:
-            diff.append(-1)
+            diff.append(0) #-1) TODO: Fix labelling of RSU data
     annos['difficulty'] = np.array(diff, np.int32)
     return diff
 
