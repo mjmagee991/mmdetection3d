@@ -45,6 +45,10 @@ def main():
     # build dataloader
     dataloader = Runner.build_dataloader(cfg.test_dataloader)
 
+    if args.samples > len(dataloader):
+        print('Not enough data to supply the requested number of samples')
+        args.samples = len(dataloader)
+
     # build model and load checkpoint
     model = MODELS.build(cfg.model)
     load_checkpoint(model, args.checkpoint, map_location='cpu')
@@ -76,11 +80,9 @@ def main():
                 print(f'Done sample [{i + 1:<3}/ {args.samples}], '
                       f'fps: {fps:.1f} sample / s')
 
-        if (i + 1) == args.samples:
-            pure_inf_time += elapsed
-            fps = (i + 1 - num_warmup) / pure_inf_time
-            print(f'Overall fps: {fps:.1f} sample / s')
-            break
+    fps = (args.samples - num_warmup) / pure_inf_time
+    print(f'Average fps: {fps:.1f} sample / s')
+    print(f'Average runtime: {1000/fps:.1f} ms')
 
 
 if __name__ == '__main__':
